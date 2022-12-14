@@ -1,42 +1,72 @@
 import React, {useState} from 'react';
 import './App.css';
-import Button from "./Button";
-import Counter from "./Counter";
+import Button from "./Components/Button/Button";
+import Counter from "./Components/Counter/Counter";
+import Announcement from "./Components/Announcement/Announcement";
+import Input from "./Components/Input/Input";
 
-type AppPropsType = {
 
-}
+
+
 
 function App() {
-  const [counter, setCounter] = useState<number>(0)
-  const [disableButton, setDisableButton] = useState<boolean>(false)
+    const [counter, setCounter] = useState<number>(0)
+    const [maxValue, setMaxValue] = useState<number>(0)
+    const [minValue, setMinValue] = useState<number>(0)
+    const [announcement, setAnnouncement] = useState<string>('Choose amount')
 
 
-  const increaseCounter = () => {
-      let counterInc = counter
-      if(counterInc < 5){
-          ++counterInc
-          setCounter(counterInc)
-      }else if(counterInc === 5){
-          setDisableButton(true)
-      }
 
 
-  }
-    const resetCounter = () => {
-
-        setCounter(0)
-        setDisableButton(!disableButton)
-        console.log(disableButton)
+    const increaseCounter = () => {
+            setCounter(counter +1)
     }
-      return (
+    const resetCounter = () => {
+        setCounter(minValue)
+    }
 
-          <div>
-              <Counter value={counter} />
-              {disableButton ? <Button disabled={true} title={'inc'} callBack={increaseCounter} /> : <Button title={'inc'} callBack={increaseCounter} />}
-              {!disableButton ? <Button disabled={true} title={'reset'} callBack={resetCounter} /> : <Button title={'reset'} callBack={resetCounter} />}
+    const newMaxValue = (value:number) => {
+        if(value < 0){
+            setAnnouncement('Enter the right amount,please!')
+        }else {
+            setAnnouncement('Save your amount')
+            setMaxValue(value)
+        }
 
-          </div>
-      );
+    }
+    const newMinValue = (value:number) => {
+        if(value < maxValue && value > -1){
+            setMinValue(value)
+            setCounter(value)
+        }else{
+            setAnnouncement('Enter the right amount,please!')
+        }
+    }
+
+const disabled = counter === maxValue
+const disabled2 = counter === minValue
+
+    return (
+        <div className={'App'}>
+            <div className={'container'}>
+                <div className={'counterApp'}>
+
+                    <Counter value={counter} maxValue={maxValue}/>
+                    <div className={'buttonWrapper'}>
+                        <Button disabled={disabled} title={'inc'} callBack={increaseCounter}/>
+                        <Button disabled={disabled2} title={'reset'} callBack={resetCounter}/>
+                    </div>
+                </div>
+            </div>
+            <div className={'container'}>
+                <div className={'counter'}>
+                    <Input value={maxValue} onChange={newMaxValue} announcement={announcement}/>
+                    <Input  value={minValue} onChange={newMinValue} announcement={announcement}/>
+                    <Button disabled={disabled} title={'set'} callBack={()=>{}}/>//local storage fn
+
+                </div>
+            </div>
+        </div>
+    );
 }
 export default App;

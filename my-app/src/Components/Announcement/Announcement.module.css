@@ -1,0 +1,13 @@
+.announcement {
+  border: 5px solid aqua;
+  border-radius: 30px;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+}
+
+.red {
+  color: red;
+}
+
+/*# sourceMappingURL=Announcement.module.css.map */

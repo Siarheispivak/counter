@@ -1,4 +1,7 @@
 import React ,{MouseEvent} from 'react';
+import s from './Button.module.css'
+
+
 type ButtonType = {
     title:string
     callBack:()=>void
@@ -11,9 +14,12 @@ const Button = (props:ButtonType) => {
         props.callBack()
     }
     return (
-         <div>
-             <button disabled={props.disabled} onClick={onClickHandler}>{props.title}</button>
+         <div className={s.button}>
+             <button className={s.btn} disabled={props.disabled} onClick={onClickHandler}>
+                 <span>{props.title}</span>
+             </button>
         </div>
+
     );
 };
 
