@@ -8,10 +8,10 @@ type SettingsType = {
     newMaxValue:(value:number)=>void
     newMinValue:(value:number)=>void
     announcement:string
+    error:boolean
+    // disabled:boolean
     // getFromLocalStorage:()=>void
     // setToLocalStorage:()=>void
-    // disabled:boolean
-    error:boolean
 }
 
 export const Settings = (props:SettingsType) => {

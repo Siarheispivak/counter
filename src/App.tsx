@@ -3,15 +3,23 @@ import './App.css';
 import Button from "./Components/Button/Button";
 import Counter from "./Components/Counter/Counter";
 import {Settings} from "./Components/Settings";
+import {useSelector} from "react-redux";
 
+export type CounterType = {
+    counter: number,
+    maxValue: number,
+    minValue:number,
+    announcement:string,
+    error:boolean
+}
 
 function App() {
+    // const state = useSelector<>()
     const [counter, setCounter] = useState(0)
     const [maxValue, setMaxValue] = useState(10)
     const [minValue, setMinValue] = useState(0)
     const [announcement, setAnnouncement] = useState('Choose amount')
     const [error, setError] = useState(false)
-    const [className, setClassName] = useState(true)
 
     useEffect(() => {
         let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
@@ -40,6 +48,7 @@ function App() {
             setAnnouncement('Incorrect value')
             setError(true)
         } else {
+
             setAnnouncement('Save your amount')
             setMaxValue(value)
             setError(false)
@@ -53,6 +62,7 @@ function App() {
             setMinValue(value)
             // setCounter(value)
         } else if (value < 0) {
+
             setAnnouncement('Incorrect value')
             setError(true)
         } else {
@@ -89,15 +99,15 @@ function App() {
                     </div>
                 </div>
                 <Settings
-                    // disabled={disabled3}
-                    // getFromLocalStorage={getFromLocalStorage}
-                    // setToLocalStorage={setToLocalStorage}
                     maxValue={maxValue}
                     minValue={minValue}
                     newMaxValue={newMaxValue}
                     newMinValue={newMinValue}
                     announcement={announcement}
                     error={error}
+                    // disabled={disabled3}
+                    // getFromLocalStorage={getFromLocalStorage}
+                    // setToLocalStorage={setToLocalStorage}
                 />
             </div>
         </>
