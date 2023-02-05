@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Button from "./Components/Button/Button";
 import Counter from "./Components/Counter/Counter";
-import Input from "./Components/Input/Input";
+import {Settings} from "./Components/Settings";
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     const [minValue, setMinValue] = useState(0)
     const [announcement, setAnnouncement] = useState('Choose amount')
     const [error, setError] = useState(false)
-    const [className, setClassName] = useState(false)
+    const [className, setClassName] = useState(true)
 
     useEffect(() => {
         let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
@@ -60,23 +60,17 @@ function App() {
             setError(true)
         }
     }
-    const setToLocalStorage = () => {
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
-        localStorage.setItem('minValue', JSON.stringify(minValue))
-    }
-    const getToLocalStorage = () => {
-        let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
-        let localStorageMinValue = Number(localStorage.getItem('minValue'))
-        setMaxValue(localStorageMaxValue)
-        setMinValue(localStorageMinValue)
-        setCounter(localStorageMaxValue)
-    }
-
-
-    const addTransformationClass = ()=>{
-            setClassName(!className)
-        console.log(className)
-        }
+    // const setToLocalStorage = () => {
+    //     localStorage.setItem('maxValue', JSON.stringify(maxValue))
+    //     localStorage.setItem('minValue', JSON.stringify(minValue))
+    // }
+    // const getFromLocalStorage = () => {
+    //     let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
+    //     let localStorageMinValue = Number(localStorage.getItem('minValue'))
+    //     setMaxValue(localStorageMaxValue)
+    //     setMinValue(localStorageMinValue)
+    //     setCounter(localStorageMaxValue)
+    // }
 
     const disabled = counter === maxValue
     const disabled2 = counter === minValue
@@ -93,23 +87,18 @@ function App() {
                             <Button disabled={disabled2} title={'reset'} callBack={resetCounter}/>
                         </div>
                     </div>
-                    <div className="settings" onClick={addTransformationClass}></div>
                 </div>
-                <div className={'settingsContainer'}>
-                    <div className={'counter'}>
-                        <div className='maxSet'>
-                            <Input value={maxValue} onChange={newMaxValue} announcement={announcement} error={error}/>
-                        </div>
-                        <div className='minSet'>
-                            <Input value={minValue} onChange={newMinValue} announcement={announcement} error={error}/>
-                        </div>
-                        <div className="getAndSet">
-                            <Button disabled={disabled3} title={'get'} callBack={getToLocalStorage}/>
-                            <Button disabled={disabled3} title={'set'} callBack={setToLocalStorage}/>
-                        </div>
-                    </div>
-                </div>
-
+                <Settings
+                    // disabled={disabled3}
+                    // getFromLocalStorage={getFromLocalStorage}
+                    // setToLocalStorage={setToLocalStorage}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    newMaxValue={newMaxValue}
+                    newMinValue={newMinValue}
+                    announcement={announcement}
+                    error={error}
+                />
             </div>
         </>
 

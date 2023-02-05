@@ -66,13 +66,13 @@ html {
     display: flex;
     justify-content: center;
     border-radius: 50px;
-    background: rgba(0, 0, 0, 0.43);
+    background: rgba(0, 0, 0, 0.71);
     border: 5px solid #F18230;
-    border-radius: 30px;
-    padding: 20px 10px 20px 20px;
+    padding:20px;
     z-index: 9;
     transition: 1s ease-in-out;
     gap: 20px;
+
     .counterApp {
       width: 100%;
       display: flex;
@@ -80,7 +80,8 @@ html {
       align-items: center;
       gap: 20px;
     }
-    .settings{
+
+    .settings {
       width: 50px;
       height: 45px;
       opacity: 1;
@@ -89,9 +90,15 @@ html {
       align-items: center;
       justify-content: center;
       align-self: center;
-      background-image: url("images/settings.png");
+      background: rgba(157, 245, 33, 0.24);
+      color: #FFFFFF;
+      &:hover{
+        background: rgba(157, 245, 33, 0.96);
+        transition: 2s;
+      }
     }
   }
+
 
   .settingsContainer {
     width: 300px;
@@ -101,11 +108,12 @@ html {
     background: rgba(0, 0, 0, 0.43);
     border: 5px solid #F18230;
     padding: 20px;
-    transform: translate(-320px);
+    transform: translate(-310px);
     transition: 1s ease-in-out;
-    opacity: 0;
+    opacity: 4%;
     z-index: 2;
-    &:active {
+
+    &:hover {
       background: rgb(0, 0, 0);
       transform: translate(0);
       opacity: 1;
@@ -140,12 +148,8 @@ html {
         align-self: center;
       }
     }
-
   }
-
 }
-
-
 .buttonWrapper {
   height: 100px;
   width: 100%;
