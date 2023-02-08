@@ -7,11 +7,10 @@ type SettingsType = {
     minValue:number
     newMaxValue:(value:number)=>void
     newMinValue:(value:number)=>void
-    announcement:string
-    error:boolean
-    // disabled:boolean
-    // getFromLocalStorage:()=>void
-    // setToLocalStorage:()=>void
+    error:string
+    disabled:boolean
+    getFromLocalStorage:()=>void
+    setToLocalStorage:()=>void
 }
 
 export const Settings = (props:SettingsType) => {
@@ -20,15 +19,15 @@ export const Settings = (props:SettingsType) => {
             <div className={'settingsContainer'}  >
                 <div className={'counter'}>
                     <div className='maxSet'>
-                        <Input value={props.maxValue} onChange={props.newMaxValue} announcement={props.announcement} error={props.error}/>
+                        <Input value={props.maxValue} onChange={props.newMaxValue} error={props.error}/>
                     </div>
                     <div className='minSet'>
-                        <Input value={props.minValue} onChange={props.newMinValue} announcement={props.announcement} error={props.error}/>
+                        <Input value={props.minValue} onChange={props.newMinValue}  error={props.error}/>
                     </div>
-                    {/*<div className="getAndSet">*/}
-                    {/*    <Button disabled={props.disabled} title={'get'} callBack={props.getFromLocalStorage}/>*/}
-                    {/*    <Button disabled={props.disabled} title={'set'} callBack={props.setToLocalStorage}/>*/}
-                    {/*</div>*/}
+                    <div className="getAndSet">
+                        <Button disabled={props.disabled} title={'get'} callBack={props.getFromLocalStorage}/>
+                        <Button disabled={props.disabled} title={'set'} callBack={props.setToLocalStorage}/>
+                    </div>
                 </div>
             </div>
         </div>
