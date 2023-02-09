@@ -3,7 +3,7 @@ import Announcement from "../Announcement/Announcement";
 type InputPropsType = {
     onChange:(value:number)=>void
     value:number
-    error:string
+    showError:string
 }
 
 const Input = (props:InputPropsType) => {
@@ -13,7 +13,7 @@ const Input = (props:InputPropsType) => {
     return (
         <div>
             <input value={props.value} type={"number"} onChange={onChangeHandler}/>
-            <Announcement  error={props.error}/>
+            <Announcement  showError={props.showError}/>
         </div>
     );
 };

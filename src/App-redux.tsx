@@ -7,11 +7,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     increaseCounterAC,
     resetCounterAC,
-    setErrorAC,
+    setMaxToLocalStorageAC,
     setMaxValueAC,
-    setMinValueAC, setToLocalStorageAC
+    setMinToLocalStorageAC,
+    setMinValueAC
 } from "./Reducers/counter-reducer";
 import {StoreType} from "./Store/Store";
+
 
 export type CounterType = {
     counter: number,
@@ -22,42 +24,45 @@ export type CounterType = {
 }
 
 function AppRedux() {
-    useEffect(() => {
-        let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
-        let localStorageMinValue = Number(localStorage.getItem('minValue'))
-    }, [])
-
     const count = useSelector<StoreType,CounterType>(state => state.count)
+
+    // useEffect(() => {
+    //     let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
+    //     let localStorageMinValue = Number(localStorage.getItem('minValue'))
+    //     dispatch( setMaxValueAC(localStorageMaxValue))
+    //
+    // }, [count.maxValue])
+    // console.log(count.maxValue)
+
     const dispatch = useDispatch()
-    console.log(count)
 
     const increaseCounter = () => {
-        const action = increaseCounterAC(count.counter)
-        dispatch(action)
+        dispatch(increaseCounterAC(count.counter))
     }
     const resetCounter = () => {
         dispatch(resetCounterAC())
     }
     const newMaxValue = (value: number) => {
-        dispatch(setErrorAC('error',value))
         dispatch(setMaxValueAC(value))
     }
     const newMinValue = (value: number) => {
         dispatch(setMinValueAC(value))
     }
-    const setToLocalStorage = () => {
-      let maxValueToLS = localStorage.setItem('maxValue', JSON.stringify(count.maxValue))
-      let minValueToLS =  localStorage.setItem('minValue', JSON.stringify(count.minValue))
-        // dispatch(setToLocalStorageAC(minValueToLS,maxValueToLS))
-    }
-    const getFromLocalStorage = () => {
-        let maxValueFromLS = Number(localStorage.getItem('maxValue'))
-        let minValueFromLS = Number(localStorage.getItem('minValue'))
-        dispatch(setMaxValueAC(maxValueFromLS))
-        dispatch(setMinValueAC(minValueFromLS))
-    }
-
-
+    // const setToLocalStorage = () => {
+    //     dispatch(setMaxToLocalStorageAC(count.maxValue,count.counter))
+    //     dispatch(setMinToLocalStorageAC(count.minValue,count.counter))
+    // }
+    // const getFromLocalStorage = () => {
+    //     let maxValueFromLS = Number(localStorage.getItem('maxValue'))
+    //     let minValueFromLS = Number(localStorage.getItem('minValue'))
+    //     // dispatch(getFromLocalStorageAC())
+    // }
+    // const getFromLocalStorage = () => {
+    //     let maxValueFromLS = Number(localStorage.getItem('maxValue'))
+    //     let minValueFromLS = Number(localStorage.getItem('minValue'))
+    //     dispatch(setMaxValueAC(maxValueFromLS))
+    //     dispatch(setMinValueAC(minValueFromLS))
+    // }
     return (
         <>
             {/*<div className="snow"></div>*/}
@@ -76,10 +81,10 @@ function AppRedux() {
                     minValue={count.minValue}
                     newMaxValue={newMaxValue}
                     newMinValue={newMinValue}
-                    error={count.error}
+                    showError={count.error}
                     disabled={count.disable}
-                    getFromLocalStorage={getFromLocalStorage}
-                    setToLocalStorage={setToLocalStorage}
+                    // getFromLocalStorage={getFromLocalStorage}
+                    // setToLocalStorage={setToLocalStorage}
                 />
             </div>
         </>

@@ -4,14 +4,15 @@ import s from './Button.module.css'
 
 type ButtonType = {
     title:string
-    callBack:()=>void
+    callBack?:()=>void
     disabled?:boolean
 }
 
 const Button = (props:ButtonType) => {
 
-    const onClickHandler = (e:MouseEvent<HTMLButtonElement>) => {
-        props.callBack()
+    const onClickHandler = () => {
+        if ( props.callBack) props.callBack()
+
     }
     return (
          <div className={s.button}>

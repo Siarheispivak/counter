@@ -1,11 +1,19 @@
 import {combineReducers, legacy_createStore} from "redux";
 import {countReducer} from "../Reducers/counter-reducer";
+import {loadState, saveState} from "../utilits";
 
 
 const rootReducer = combineReducers({
-    count:countReducer
+    count: countReducer
 })
 
 export type StoreType = ReturnType<typeof rootReducer>
-export const store = legacy_createStore(rootReducer)
+const persistedState = loadState();
+export const store = legacy_createStore(rootReducer, persistedState)
+
+store.subscribe(() => {
+    saveState({
+        count: store.getState().count
+    });
+});
 
