@@ -1,12 +1,21 @@
-.announcement {
+.announcement_wrapper {
+  display: flex;
+  justify-content: center;
+}
+.announcement_wrapper .announcement {
   font-weight: bold;
   padding: 10px;
   display: inline-block;
   color: #FFFFFF;
+  letter-spacing: 6px;
+  align-self: center;
 }
-
-.red {
+.announcement_wrapper .red {
   color: red;
+  font-weight: bold;
+  padding: 10px;
+  display: inline-block;
+  letter-spacing: 6px;
 }
 
 /*# sourceMappingURL=Announcement.module.css.map */

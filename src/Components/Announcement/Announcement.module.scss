@@ -1,9 +1,20 @@
-.announcement{
-  font-weight: bold;
-  padding: 10px;
-  display: inline-block;
-  color: #FFFFFF;
-}
-.red{
-  color: red;
+.announcement_wrapper{
+  display: flex;
+  justify-content: center;
+  .announcement{
+    font-weight: bold;
+    padding: 10px;
+    display: inline-block;
+    color: #FFFFFF;
+    letter-spacing: 6px;
+    align-self: center;
+  }
+  .red{
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+    display: inline-block;
+    letter-spacing: 6px;
+
+  }
 }

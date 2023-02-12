@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import Button from "./Components/Button/Button";
 import Counter from "./Components/Counter/Counter";
 import {Settings} from "./Components/Settings";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    geMinMaxFromLocalStorageAC,
     increaseCounterAC,
     resetCounterAC,
-    setMaxToLocalStorageAC,
     setMaxValueAC,
-    setMinToLocalStorageAC,
+    setMinMaxToLocalStorageAC,
     setMinValueAC
 } from "./Reducers/counter-reducer";
 import {StoreType} from "./Store/Store";
@@ -25,15 +25,6 @@ export type CounterType = {
 
 function AppRedux() {
     const count = useSelector<StoreType,CounterType>(state => state.count)
-
-    // useEffect(() => {
-    //     let localStorageMaxValue = Number(localStorage.getItem('maxValue'))
-    //     let localStorageMinValue = Number(localStorage.getItem('minValue'))
-    //     dispatch( setMaxValueAC(localStorageMaxValue))
-    //
-    // }, [count.maxValue])
-    // console.log(count.maxValue)
-
     const dispatch = useDispatch()
 
     const increaseCounter = () => {
@@ -48,21 +39,12 @@ function AppRedux() {
     const newMinValue = (value: number) => {
         dispatch(setMinValueAC(value))
     }
-    // const setToLocalStorage = () => {
-    //     dispatch(setMaxToLocalStorageAC(count.maxValue,count.counter))
-    //     dispatch(setMinToLocalStorageAC(count.minValue,count.counter))
-    // }
-    // const getFromLocalStorage = () => {
-    //     let maxValueFromLS = Number(localStorage.getItem('maxValue'))
-    //     let minValueFromLS = Number(localStorage.getItem('minValue'))
-    //     // dispatch(getFromLocalStorageAC())
-    // }
-    // const getFromLocalStorage = () => {
-    //     let maxValueFromLS = Number(localStorage.getItem('maxValue'))
-    //     let minValueFromLS = Number(localStorage.getItem('minValue'))
-    //     dispatch(setMaxValueAC(maxValueFromLS))
-    //     dispatch(setMinValueAC(minValueFromLS))
-    // }
+    const setToLocalStorage = () => {
+        dispatch(setMinMaxToLocalStorageAC())
+    }
+    const getFromLocalStorage = () => {
+        dispatch(geMinMaxFromLocalStorageAC())
+    }
     return (
         <>
             {/*<div className="snow"></div>*/}
@@ -83,8 +65,8 @@ function AppRedux() {
                     newMinValue={newMinValue}
                     showError={count.error}
                     disabled={count.disable}
-                    // getFromLocalStorage={getFromLocalStorage}
-                    // setToLocalStorage={setToLocalStorage}
+                    getFromLocalStorage={getFromLocalStorage}
+                    setToLocalStorage={setToLocalStorage}
                 />
             </div>
         </>

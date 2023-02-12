@@ -17,3 +17,12 @@ store.subscribe(() => {
     });
 });
 
+// const persistedState = loadState();
+// const store = legacy_createStore(rootReducer, persistedState);
+//
+// store.subscribe(() => {
+//     saveState({
+//         count: store.getState().count
+//     });
+// });
+

@@ -7,9 +7,7 @@ type AnnouncementPropsType = {
 
 const Announcement = (props:AnnouncementPropsType) => {
     return (
-        <div>
-            {/*{props.error ?  <span className={s.red}>{props.announcement}</span> :  <span className={s.announcement}>{props.announcement}</span>}*/}
-             {/*<span className={s.announcement}>{props.announcement}</span>*/}
+        <div className={s.announcement_wrapper}>
             {props.showError != 'set amount' ? <span className={s.red}>{props.showError}</span> :<span className={s.announcement}>{props.showError}</span>}
         </div>
     );
