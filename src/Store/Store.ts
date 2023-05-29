@@ -1,21 +1,28 @@
-import {combineReducers, legacy_createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import {countReducer} from "../Reducers/counter-reducer";
 import {loadState, saveState} from "../utilits";
+import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
+import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 
 const rootReducer = combineReducers({
-    count: countReducer
+    counter: countReducer
 })
 
-export type StoreType = ReturnType<typeof rootReducer>
-const persistedState = loadState();
-export const store = legacy_createStore(rootReducer, persistedState)
+
+type ThunkDispatchType = ThunkDispatch<AppStateType,any,AnyAction>
+export const useAppDispatch = () => useDispatch<ThunkDispatchType>();
+export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector;
+
+export const store = legacy_createStore(rootReducer, loadState(),applyMiddleware(thunkMiddleware))
+export type AppStateType = ReturnType<typeof rootReducer>
+export type AppStoreType = typeof store
 
 store.subscribe(() => {
     saveState({
-        count: store.getState().count
+        counter: store.getState().counter
     });
 });
 
-//разобрать что что написано выше обязательно!!!
+//разобрать что тут написано выше обязательно!!!
 

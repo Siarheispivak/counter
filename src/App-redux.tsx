@@ -3,20 +3,19 @@ import './App.css';
 import Button from "./Components/Button/Button";
 import Counter from "./Components/Counter/Counter";
 import {Settings} from "./Components/Settings";
-import {useDispatch, useSelector} from "react-redux";
 import {
-    geMinMaxFromLocalStorageAC,
-    increaseCounterAC,
-    resetCounterAC,
-    setMaxValueAC,
-    setMinMaxToLocalStorageAC,
-    setMinValueAC
+    geMinMaxFromLocalStorageTC,
+    incValueTC,
+    resetValueTC,
+    setMaxValueTC,
+    setMinMaxToLocalStorageTC,
+    setMinValueTC
 } from "./Reducers/counter-reducer";
-import {StoreType} from "./Store/Store";
+import {useAppDispatch, useAppSelector} from "./Store/Store";
 
 
 export type CounterType = {
-    counter: number,
+    value: number,
     maxValue: number,
     minValue: number,
     error: string,
@@ -24,26 +23,26 @@ export type CounterType = {
 }
 
 function AppRedux() {
-    const count = useSelector<StoreType,CounterType>(state => state.count)
-    const dispatch = useDispatch()
+    const count = useAppSelector<CounterType>(state => state.counter)
+    const dispatch = useAppDispatch()
 
     const increaseCounter = () => {
-        dispatch(increaseCounterAC(count.counter))
+        dispatch(incValueTC())
     }
     const resetCounter = () => {
-        dispatch(resetCounterAC())
+        dispatch(resetValueTC())
     }
     const newMaxValue = (value: number) => {
-        dispatch(setMaxValueAC(value))
+        dispatch(setMaxValueTC(value))
     }
     const newMinValue = (value: number) => {
-        dispatch(setMinValueAC(value))
+        dispatch(setMinValueTC(value))
     }
     const setToLocalStorage = () => {
-        dispatch(setMinMaxToLocalStorageAC())
+        dispatch(setMinMaxToLocalStorageTC())
     }
     const getFromLocalStorage = () => {
-        dispatch(geMinMaxFromLocalStorageAC())
+        dispatch(geMinMaxFromLocalStorageTC())
     }
     return (
         <>
@@ -51,7 +50,7 @@ function AppRedux() {
             <div className={'App'}>
                 <div className={'container'}>
                     <div className={'counterApp'}>
-                        <Counter value={count.counter} maxValue={count.maxValue}/>
+                        <Counter value={count.value} maxValue={count.maxValue}/>
                         <div className={'buttonWrapper'}>
                             <Button disabled={count.disable} title={'inc'} callBack={increaseCounter}/>
                             <Button disabled={count.disable} title={'reset'} callBack={resetCounter}/>
