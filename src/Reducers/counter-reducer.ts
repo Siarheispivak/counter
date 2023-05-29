@@ -2,13 +2,12 @@ import {CounterType} from "../App-redux";
 import {AppStateType} from "../Store/Store";
 import {Dispatch} from "redux";
 
-
-type ActionsTypes = getMinMaxFromLocalStorageACType
+type ActionsTypes =
     | setMaxValueACType
     | setMinValueACType
     | increaseCounterACType
-    | resetCounterACType
-    | setMinMaxToLocalStorageACType;
+    | resetCounterACType;
+
 const initialState: CounterType = {
     value: 0,
     maxValue: 0,
@@ -18,7 +17,7 @@ const initialState: CounterType = {
     disable: false
 }
 type InitialStateType = typeof initialState
-export const countReducer = (state: CounterType = initialState, action: ActionsTypes):InitialStateType => {
+export const countReducer = (state: CounterType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case 'INCREASE-COUNTER': {
             return (action.counter < state.maxValue) ? {...state, value: action.counter + 1} : state
@@ -27,22 +26,24 @@ export const countReducer = (state: CounterType = initialState, action: ActionsT
             return {...state, value: state.minValue}
         }
         case 'SET-MAX-VALUE': {
-            let error = (action.value > 0 && action.value > state.minValue) ? 'set amount' : 'error'
-            return (action.value > 0 && action.value > state.minValue) ? {
+            let error = (action.maxValue > 0 && action.maxValue > state.minValue) ? 'set amount' : 'error'
+            let maximumCounterValue = action.maxValue < action.counterValue  ? action.maxValue : action.counterValue
+            return (action.maxValue > 0 && action.maxValue > state.minValue) ? {
                 ...state,
-                maxValue: action.value,
-                error: error
+                maxValue: action.maxValue,
+                error: error,
+                value:maximumCounterValue
             } : {...state, error: error}
         }
         case 'SET-MIN-VALUE': {
-            let error = (action.value >= 0 && action.value < state.maxValue) ? 'set amount' : 'error'
-            return (action.value >= 0 && action.value < state.maxValue) ? {...state, minValue: action.value, error: error} : {...state, error: error}
-        }
-        case 'SET-MIN-MAX-LOCAL-STORAGE': {
-            return state
-        }
-        case 'GET-MIN-MAX-LOCAL-STORAGE': {
-            return {...state, maxValue: action.maxValue, minValue: action.minValue, error: 'set amount'}
+            let error = (action.minValue >= 0 && action.minValue < state.maxValue) ? 'set amount' : 'error'
+            let minimumCounterValue = action.minValue > action.counterValue  ? action.minValue : action.counterValue
+            return (action.minValue >= 0 && action.minValue < state.maxValue) ? {
+                ...state,
+                minValue: action.minValue,
+                error: error,
+                value:minimumCounterValue
+            } : {...state, error: error}
         }
         default:
             return state
@@ -64,71 +65,33 @@ export const resetCounterAC = () => {
     } as const
 }
 type  setMaxValueACType = ReturnType<typeof setMaxValueAC>
-export const setMaxValueAC = (value: number) => {
+export const setMaxValueAC = (counterValue:number,maxValue: number) => {
     return {
         type: 'SET-MAX-VALUE',
-        value
+        counterValue,
+        maxValue
     } as const
 }
 type  setMinValueACType = ReturnType<typeof setMinValueAC>
-export const setMinValueAC = (value: number) => {
+export const setMinValueAC = (counterValue:number,minValue: number) => {
     return {
         type: 'SET-MIN-VALUE',
-        value
+        counterValue,
+        minValue
     } as const
 }
-type setMinMaxToLocalStorageACType = ReturnType<typeof setMinMaxToLocalStorageAC>
-export const setMinMaxToLocalStorageAC = () => {
-    return {
-        type: 'SET-MIN-MAX-LOCAL-STORAGE'
-    } as const
-}
-type getMinMaxFromLocalStorageACType = ReturnType<typeof geMinMaxFromLocalStorageAC>
-export const geMinMaxFromLocalStorageAC = (max:number,min:number) => {
-    return {
-        type: 'GET-MIN-MAX-LOCAL-STORAGE',
-        maxValue:max,
-        minValue: min
-    } as const
-}
-
-
 
 // THUNK
-export const incValueTC = () => (dispatch: Dispatch,getState:()=>AppStateType) => {
+export const incValueTC = () => (dispatch: Dispatch, getState: () => AppStateType) => {
     const currentValue = getState().counter.value
-    localStorage.setItem('counterValue',JSON.stringify(currentValue + 1))
     dispatch(increaseCounterAC(currentValue))
 }
 export const resetValueTC = () => (dispatch: Dispatch) => {
-
     dispatch(resetCounterAC())
 }
-export const setMinValueTC = (value:number) => (dispatch: Dispatch) => {
-    dispatch(setMinValueAC(value))
+export const setMinValueTC = (counterValue:number,minValue: number) => (dispatch: Dispatch) => {
+    dispatch(setMinValueAC(counterValue,minValue))
 }
-export const setMaxValueTC = (value:number) => (dispatch: Dispatch) => {
-    dispatch(setMaxValueAC(value))
+export const setMaxValueTC = (counterValue:number,maxValue: number) => (dispatch: Dispatch) => {
+    dispatch(setMaxValueAC(counterValue,maxValue))
 }
-export const setMinMaxToLocalStorageTC = () => (dispatch: Dispatch,getState:()=>AppStateType) => {
-    const max = getState().counter.maxValue
-    const min = getState().counter.minValue
-    Number(localStorage.setItem('MAX', JSON.stringify(max)));
-    Number(localStorage.setItem('MIN', JSON.stringify(min)));
-    dispatch(setMinMaxToLocalStorageAC())
-}
-export const geMinMaxFromLocalStorageTC = () => (dispatch: Dispatch,getState:()=>AppStateType) => {
-    const max = localStorage.getItem('MAX');
-    const min = localStorage.getItem('MIN');
-
-    dispatch(geMinMaxFromLocalStorageAC(Number(max),Number(min)))
-}
-
-
-
-// export const setMinValueTC = () => (dispatch: Dispatch) => {
-// let valueAsString = localStorage.getItem('counterValue')
-//   if(valueAsString){
-//       dispatch(setValueAC(+valueAsString))
-//   }
-// }

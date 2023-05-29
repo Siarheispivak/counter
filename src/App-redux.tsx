@@ -3,15 +3,13 @@ import './App.css';
 import Button from "./Components/Button/Button";
 import Counter from "./Components/Counter/Counter";
 import {Settings} from "./Components/Settings";
+import {useAppDispatch, useAppSelector} from "./Store/Store";
 import {
-    geMinMaxFromLocalStorageTC,
     incValueTC,
     resetValueTC,
     setMaxValueTC,
-    setMinMaxToLocalStorageTC,
     setMinValueTC
 } from "./Reducers/counter-reducer";
-import {useAppDispatch, useAppSelector} from "./Store/Store";
 
 
 export type CounterType = {
@@ -28,22 +26,18 @@ function AppRedux() {
 
     const increaseCounter = () => {
         dispatch(incValueTC())
+
     }
     const resetCounter = () => {
         dispatch(resetValueTC())
     }
-    const newMaxValue = (value: number) => {
-        dispatch(setMaxValueTC(value))
+    const newMaxValue = (maxValue: number) => {
+        dispatch(setMaxValueTC(count.value,maxValue))
     }
-    const newMinValue = (value: number) => {
-        dispatch(setMinValueTC(value))
+    const newMinValue = (minValue: number) => {
+        dispatch(setMinValueTC(count.value,minValue))
     }
-    const setToLocalStorage = () => {
-        dispatch(setMinMaxToLocalStorageTC())
-    }
-    const getFromLocalStorage = () => {
-        dispatch(geMinMaxFromLocalStorageTC())
-    }
+
     return (
         <>
             {/*<div className="snow"></div>*/}
@@ -64,8 +58,6 @@ function AppRedux() {
                     newMinValue={newMinValue}
                     showError={count.error}
                     disabled={count.disable}
-                    getFromLocalStorage={getFromLocalStorage}
-                    setToLocalStorage={setToLocalStorage}
                 />
             </div>
         </>

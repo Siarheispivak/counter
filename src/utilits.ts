@@ -12,7 +12,7 @@ export const loadState = () => {
     }
 };
 
-export const saveState = (state:AppStateType) => {
+export const saveState = (state: AppStateType) => {
     try {
         const serializedState = JSON.stringify(state);
         localStorage.setItem('state', serializedState);
@@ -20,3 +20,4 @@ export const saveState = (state:AppStateType) => {
         // ignore write errors
     }
 };
+
