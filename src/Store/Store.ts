@@ -1,7 +1,7 @@
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from "redux";
-import {countReducer} from "../Reducers/counter-reducer";
+import {ActionsTypes, countReducer} from "../Reducers/counter-reducer";
 import {loadState, saveState} from "../utilits";
-import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
+import thunkMiddleware, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 
@@ -24,4 +24,4 @@ store.subscribe(() => {
     });
 });
 
-
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsTypes>

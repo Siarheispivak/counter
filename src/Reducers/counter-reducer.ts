@@ -1,12 +1,6 @@
 import {CounterType} from "../App-redux";
-import {AppStateType} from "../Store/Store";
-import {Dispatch} from "redux";
+import {AppStateType, AppThunk} from "../Store/Store";
 
-type ActionsTypes =
-    | setMaxValueACType
-    | setMinValueACType
-    | increaseCounterACType
-    | resetCounterACType;
 
 const initialState: CounterType = {
     value: 0,
@@ -51,20 +45,17 @@ export const countReducer = (state: CounterType = initialState, action: ActionsT
 }
 
 //Actions
-type  increaseCounterACType = ReturnType<typeof increaseCounterAC>
 export const increaseCounterAC = (counter: number) => {
     return {
         type: 'INCREASE-COUNTER',
         counter
     } as const
 }
-type  resetCounterACType = ReturnType<typeof resetCounterAC>
 export const resetCounterAC = () => {
     return {
         type: 'RESET-COUNTER'
     } as const
 }
-type  setMaxValueACType = ReturnType<typeof setMaxValueAC>
 export const setMaxValueAC = (counterValue:number,maxValue: number) => {
     return {
         type: 'SET-MAX-VALUE',
@@ -72,7 +63,6 @@ export const setMaxValueAC = (counterValue:number,maxValue: number) => {
         maxValue
     } as const
 }
-type  setMinValueACType = ReturnType<typeof setMinValueAC>
 export const setMinValueAC = (counterValue:number,minValue: number) => {
     return {
         type: 'SET-MIN-VALUE',
@@ -80,18 +70,28 @@ export const setMinValueAC = (counterValue:number,minValue: number) => {
         minValue
     } as const
 }
-
 // THUNK
-export const incValueTC = () => (dispatch: Dispatch, getState: () => AppStateType) => {
+export const incValueTC = (): AppThunk => (dispatch, getState: () => AppStateType) => {
     const currentValue = getState().counter.value
     dispatch(increaseCounterAC(currentValue))
 }
-export const resetValueTC = () => (dispatch: Dispatch) => {
+export const resetValueTC = () : AppThunk => (dispatch) => {
     dispatch(resetCounterAC())
 }
-export const setMinValueTC = (counterValue:number,minValue: number) => (dispatch: Dispatch) => {
+export const setMinValueTC = (counterValue:number,minValue: number): AppThunk => (dispatch) => {
     dispatch(setMinValueAC(counterValue,minValue))
 }
-export const setMaxValueTC = (counterValue:number,maxValue: number) => (dispatch: Dispatch) => {
+export const setMaxValueTC = (counterValue:number,maxValue: number): AppThunk => (dispatch) => {
     dispatch(setMaxValueAC(counterValue,maxValue))
 }
+//Types
+type  increaseCounterACType = ReturnType<typeof increaseCounterAC>
+type  resetCounterACType = ReturnType<typeof resetCounterAC>
+type  setMaxValueACType = ReturnType<typeof setMaxValueAC>
+type  setMinValueACType = ReturnType<typeof setMinValueAC>
+
+export type ActionsTypes =
+    | setMaxValueACType
+    | setMinValueACType
+    | increaseCounterACType
+    | resetCounterACType;
